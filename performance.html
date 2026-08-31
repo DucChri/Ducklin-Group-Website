@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Performance — Ducklin Group</title>
+  <meta name="description" content="Live portfolio performance dashboard for Ducklin Group. Holdings, returns, NAV summary, and income yields.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Performance-page extras ─────────────────────── */
+    .perf-hero {
+      background: linear-gradient(135deg, var(--navy), #162d50);
+      padding: 140px 48px 64px;
+      text-align: center;
+    }
+    .perf-hero h1 { font-family: var(--font); font-size: clamp(1.8rem,3.5vw,2.8rem); color: var(--white); margin-bottom: 10px; }
+    .perf-hero .as-of { color: var(--gold); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .perf-hero p { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+
+    /* KPI strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .kpi {
+      padding: 32px 24px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .kpi:last-child { border-right: none; }
+    .kpi-value { font-family: var(--font); font-size: 1.8rem; color: var(--white); display: block; line-height: 1; margin-bottom: 6px; }
+    .kpi-value.up   { color: #6fcf97; }
+    .kpi-value.down { color: #eb5757; }
+    .kpi-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead th {
+      text-align: left;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--off-white); }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .symbol { font-weight: 700; color: var(--navy); font-size: 0.85rem; letter-spacing: 0.05em; }
+    .pos { color: #27ae60; }
+    .neg { color: #e53e3e; }
+    .tag-pill {
+      display: inline-block;
+      background: rgba(201,168,76,0.12);
+      color: #8a6d20;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Weight bar */
+    .weight-bar-bg { background: var(--border); border-radius: 2px; height: 6px; width: 100px; display: inline-block; vertical-align: middle; }
+    .weight-bar-fill { height: 6px; border-radius: 2px; background: var(--gold); display: block; }
+
+    /* Allocation donut (pure CSS) */
+    .alloc-section { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .donut-wrap { display: flex; justify-content: center; }
+    .donut-legend { display: flex; flex-direction: column; gap: 16px; }
+    .legend-item { display: flex; align-items: center; gap: 12px; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .legend-name { font-size: 0.9rem; color: var(--navy); flex: 1; }
+    .legend-pct { font-size: 0.9rem; font-weight: 700; color: var(--navy); }
+
+    /* Download CTA */
+    .dl-banner {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .dl-banner-text h4 { font-family: var(--font); font-size: 1.05rem; color: var(--navy); margin-bottom: 4px; }
+    .dl-banner-text p  { color: var(--gray); font-size: 0.875rem; }
+    .btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 24px;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-dl:hover { background: #162d50; }
+
+    /* Disclaimer */
+    .disclaimer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      padding: 28px 48px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+      .kpi { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .alloc-section { grid-template-columns: 1fr; }
+      .perf-hero { padding: 130px 24px 48px; }
+      .disclaimer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="index.html" class="nav-logo">Ducklin <span>Group</span></a>
+  <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="performance.html" class="active">Performance</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="perf-hero">
+  <span class="as-of">Portfolio Dashboard · As of 28 August 2026</span>
+  <h1>Portfolio Performance</h1>
+  <p>IBKR Account U26541365 · Base currency GBP · Infrastructure &amp; Growth</p>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <span class="kpi-value">£4,216</span>
+    <span class="kpi-label">Total NAV</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value up">+0.38%</span>
+    <span class="kpi-label">Period Return (TWR)</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value">7.39%</span>
+    <span class="kpi-label">Blended Income Yield</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value">4</span>
+    <span class="kpi-label">Holdings</span>
+  </div>
+</div>
+
+<!-- NAV Roll-Forward -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">NAV Summary</span>
+    <h2 class="section-title">Period Roll-Forward</h2>
+    <p class="section-subtitle">How the portfolio's net asset value moved during the period ended 28 August 2026.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:48px;">
+
+      <div style="background:var(--off-white); border-radius:4px; padding:32px; border:1px solid var(--border);">
+        <table>
+          <tbody>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Starting NAV</td>
+              <td class="num" style="border:none; font-weight:600;">£4,200.32</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Mark-to-Market</td>
+              <td class="num pos" style="border:none; font-weight:600;">+£23.42</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Commissions</td>
+              <td class="num neg" style="border:none; font-weight:600;">−£2.57</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Transaction Fees</td>
+              <td class="num neg" style="border:none; font-weight:600;">−£4.79</td>
+            </tr>
+            <tr style="border-top:2px solid var(--border);">
+              <td style="padding:14px 0 0; color:var(--navy); font-weight:700; font-family:var(--font); border:none;">Ending NAV</td>
+              <td class="num" style="padding:14px 0 0; border:none; font-weight:700; color:var(--navy); font-size:1.1rem;">£4,216.38</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:var(--off-white); border-radius:4px; padding:32px; border:1px solid var(--border);">
+        <table>
+          <tbody>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Ending Cash</td>
+              <td class="num" style="border:none; font-weight:600;">£56.69</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Stock Value</td>
+              <td class="num" style="border:none; font-weight:600;">£4,121.32</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0; color:var(--gray); font-size:0.9rem; border:none;">Dividend Accruals</td>
+              <td class="num" style="border:none; font-weight:600;">£38.37</td>
+            </tr>
+            <tr style="border-top:2px solid var(--border);">
+              <td style="padding:14px 0 0; color:var(--navy); font-weight:700; font-family:var(--font); border:none;">Period Return (TWR)</td>
+              <td class="num pos" style="padding:14px 0 0; border:none; font-weight:700; font-size:1.1rem;">+0.38%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Download link -->
+    <div class="dl-banner">
+      <div class="dl-banner-text">
+        <h4>📊 Full Portfolio Data Workbook</h4>
+        <p>Download the complete IBKR-sourced portfolio dashboard spreadsheet — holdings, trades, P&amp;L detail, income, and benchmark data.</p>
+      </div>
+      <a href="https://drive.google.com/file/d/1GSgdGANWBVtaYjDRad1ymPl6yTzh7pLt/view" target="_blank" rel="noopener" class="btn-dl">
+        ⬇ Open in Google Drive
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Holdings -->
+<section class="section section-alt">
+  <div class="container">
+    <span class="section-label">Holdings</span>
+    <h2 class="section-title">Current Positions</h2>
+    <p class="section-subtitle">Four positions as of 28 August 2026 — three UK-listed infrastructure investment trusts and one European growth holding.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th class="num">Qty</th>
+            <th class="num">Close Price</th>
+            <th class="num">Market Value</th>
+            <th class="num">Unrealized P/L</th>
+            <th class="num">Return</th>
+            <th class="num">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="symbol">DG</span></td>
+            <td>Vinci SA <span class="tag-pill">EUR</span></td>
+            <td class="num">12.29</td>
+            <td class="num">€114.35</td>
+            <td class="num">£1,202.77</td>
+            <td class="num pos">+£2.16</td>
+            <td class="num pos">+0.18%</td>
+            <td class="num">
+              29.18%
+              <div class="weight-bar-bg" style="margin-left:8px;">
+                <span class="weight-bar-fill" style="width:29.18px;"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="symbol">HICLl</span></td>
+            <td>HICL Infrastructure PLC <span class="tag-pill">GBP</span></td>
+            <td class="num">721.29</td>
+            <td class="num">137.40p</td>
+            <td class="num">£991.05</td>
+            <td class="num neg">−£18.11</td>
+            <td class="num neg">−1.79%</td>
+            <td class="num">
+              24.05%
+              <div class="weight-bar-bg" style="margin-left:8px;">
+                <span class="weight-bar-fill" style="width:24.05px;"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="symbol">INPPl</span></td>
+            <td>International Public Partnerships <span class="tag-pill">GBP</span></td>
+            <td class="num">705.00</td>
+            <td class="num">140.00p</td>
+            <td class="num">£987.00</td>
+            <td class="num neg">−£4.41</td>
+            <td class="num neg">−0.44%</td>
+            <td class="num">
+              23.95%
+              <div class="weight-bar-bg" style="margin-left:8px;">
+                <span class="weight-bar-fill" style="width:23.95px;"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="symbol">TRIGl</span></td>
+            <td>The Renewables Infrastructure Group <span class="tag-pill">GBP</span></td>
+            <td class="num">1,223.01</td>
+            <td class="num">76.90p</td>
+            <td class="num">£940.50</td>
+            <td class="num neg">−£9.43</td>
+            <td class="num neg">−0.99%</td>
+            <td class="num">
+              22.82%
+              <div class="weight-bar-bg" style="margin-left:8px;">
+                <span class="weight-bar-fill" style="width:22.82px;"></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Allocation + Income -->
+<section class="section">
+  <div class="container">
+
+    <!-- Allocation chart -->
+    <span class="section-label">Allocation</span>
+    <h2 class="section-title" style="margin-bottom:48px;">Portfolio Allocation</h2>
+
+    <div class="alloc-section" style="margin-bottom:80px;">
+      <div class="donut-wrap">
+        <!-- SVG Donut chart (29.18 / 24.05 / 23.95 / 22.82) -->
+        <svg width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="Portfolio allocation donut chart">
+          <!-- Total = 100%, each segment is a stroke-dasharray on a circle r=80, circumference=502.65 -->
+          <!-- DG 29.18% = 146.67 -->
+          <!-- HICLl 24.05% = 120.91 -->
+          <!-- INPPl 23.95% = 120.41 -->
+          <!-- TRIGl 22.82% = 114.71 -->
+          <!-- Rotation offsets: DG starts at -90deg (top). Each subsequent adds previous length -->
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#e8e8e8" stroke-width="36"/>
+          <!-- DG: navy -->
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#0b1f3a" stroke-width="36"
+            stroke-dasharray="146.67 502.65" stroke-dashoffset="125.66" transform="rotate(-90 120 120)"/>
+          <!-- HICLl: gold -->
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#c9a84c" stroke-width="36"
+            stroke-dasharray="120.91 502.65" stroke-dashoffset="-21.01" transform="rotate(-90 120 120)"/>
+          <!-- INPPl: mid blue -->
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#2a5298" stroke-width="36"
+            stroke-dasharray="120.41 502.65" stroke-dashoffset="-141.92" transform="rotate(-90 120 120)"/>
+          <!-- TRIGl: lighter gold -->
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#e4c578" stroke-width="36"
+            stroke-dasharray="114.71 502.65" stroke-dashoffset="-262.33" transform="rotate(-90 120 120)"/>
+          <!-- Centre label -->
+          <text x="120" y="115" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#0b1f3a" font-weight="bold">£4,121</text>
+          <text x="120" y="133" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#8a8f99" letter-spacing="1">STOCK VALUE</text>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0b1f3a;"></div>
+          <span class="legend-name">DG — Vinci SA</span>
+          <span class="legend-pct">29.18%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#c9a84c;"></div>
+          <span class="legend-name">HICLl — HICL Infrastructure</span>
+          <span class="legend-pct">24.05%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#2a5298;"></div>
+          <span class="legend-name">INPPl — Intl Public Partnerships</span>
+          <span class="legend-pct">23.95%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#e4c578;"></div>
+          <span class="legend-name">TRIGl — Renewables Infrastructure</span>
+          <span class="legend-pct">22.82%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Income / Dividends -->
+    <span class="section-label">Income</span>
+    <h2 class="section-title">Dividend &amp; Income Yields</h2>
+    <p class="section-subtitle">Three of the four holdings are infrastructure investment trusts with visible, covered dividend streams.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th class="num">Distribution Yield</th>
+            <th class="num">FY Target (p/share)</th>
+            <th class="num">Dividend Cover</th>
+            <th>Source / Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="symbol">HICLl</span></td>
+            <td>HICL Infrastructure PLC</td>
+            <td class="num" style="color:var(--gold); font-weight:700; font-size:1rem;">6.08%</td>
+            <td class="num">8.35p</td>
+            <td class="num"><span class="tag-pill">1.65×</span></td>
+            <td style="color:var(--gray); font-size:0.85rem;">Kepler Trust Intelligence / HL — Jan/Aug 2026. Board guidance: dividend growth next 2 FYs, fully covered.</td>
+          </tr>
+          <tr>
+            <td><span class="symbol">INPPl</span></td>
+            <td>International Public Partnerships</td>
+            <td class="num" style="color:var(--gold); font-weight:700; font-size:1rem;">6.28%</td>
+            <td class="num">8.79p</td>
+            <td class="num"><span class="tag-pill">1.10×</span></td>
+            <td style="color:var(--gray); font-size:0.85rem;">DividendData.co.uk / company RNS — 2026. Cash dividend cover reaffirmed at 1.1×.</td>
+          </tr>
+          <tr>
+            <td><span class="symbol">TRIGl</span></td>
+            <td>The Renewables Infrastructure Group</td>
+            <td class="num" style="color:var(--gold); font-weight:700; font-size:1rem;">9.82%</td>
+            <td class="num">7.55p</td>
+            <td class="num"><span class="tag-pill">1.10×</span></td>
+            <td style="color:var(--gray); font-size:0.85rem;">Investing.com / TRIG H1 2026 results. Net dividend cover restored to 1.1×, supported by £209m operational cash generation.</td>
+          </tr>
+          <tr>
+            <td><span class="symbol">DG</span></td>
+            <td>Vinci SA</td>
+            <td class="num" style="color:var(--gray);">—</td>
+            <td class="num" style="color:var(--gray);">—</td>
+            <td class="num" style="color:var(--gray);">—</td>
+            <td style="color:var(--gray); font-size:0.85rem;">Growth/industrial holding — not tracked as an income position in this phase.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+  <div style="max-width:900px; margin:0 auto;">
+    <strong style="color:rgba(255,255,255,0.65);">Important Notice:</strong> This page shows information relating to a personal investment portfolio and is published for informational purposes only. It does not constitute financial advice, an offer to buy or sell any security, or a recommendation of any investment strategy. Past performance is not indicative of future results. All figures are sourced from Interactive Brokers (IBKR) account statements and public market data. Values are denominated in GBP unless otherwise stated.
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Ducklin <span>Group</span></div>
+        <p class="footer-desc">A premier investment and financial advisory firm committed to delivering disciplined, client-focused capital solutions since 2006.</p>
+        <p class="footer-desc" style="margin-top:16px; color:rgba(255,255,255,0.7);">Christopher Ducklin<br><a href="tel:+447743016608" style="color:var(--gold);">07743 016608</a></p>
+        <p class="footer-desc" style="margin-top:12px;"><a href="https://github.com/DucChri/Ducklin-Group-Website" target="_blank" rel="noopener" style="color:var(--gold); font-size:0.85rem;">⚙ View on GitHub</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="performance.html">Performance</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Portfolio Management</a></li>
+          <li><a href="services.html">Private Equity</a></li>
+          <li><a href="services.html">M&amp;A Advisory</a></li>
+          <li><a href="services.html">Wealth Preservation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Ducklin Group. All rights reserved.</span>
+      <span>Investment advisory services involve risk. Past performance is not indicative of future results.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

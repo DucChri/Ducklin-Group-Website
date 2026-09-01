@@ -116,6 +116,7 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="thesis.html">Investment Thesis</a></li>
     <li><a href="performance.html">Performance</a></li>
     <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
   </ul>
@@ -191,7 +192,9 @@
       <h2>Register Your Interest</h2>
       <p class="subtitle">If you are interested in being considered as an investor in a Ducklin Group fund once we are registered and operational, please submit your details below. Registering interest does not constitute a commitment to invest and does not create any legal obligation on either party. All enquiries are handled in strict confidence.</p>
 
-      <form id="interest-form" onsubmit="submitInterest(event)">
+      <form id="interest-form" action="https://formspree.io/f/christopher.ducklin@ducklingroup.com" method="POST" onsubmit="submitInterest(event)">
+        <input type="hidden" name="_subject" value="Ducklin Group — New Investor Interest Registration">
+        <input type="hidden" name="_replyto" id="reply-to-field">
         <div class="interest-form">
           <div>
             <label for="if-first">First Name</label>
@@ -278,7 +281,8 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="services.html">Services</a></li>
-          <li><a href="performance.html">Performance</a></li>
+          <li><a href="thesis.html">Investment Thesis</a></li>
+    <li><a href="performance.html">Performance</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -299,10 +303,23 @@
 </footer>
 
 <script>
-function submitInterest(e) {
+async function submitInterest(e) {
   e.preventDefault();
-  document.getElementById('interest-form').style.display = 'none';
-  document.getElementById('interest-success').style.display = 'block';
+  const form = document.getElementById('interest-form');
+  const emailVal = document.getElementById('if-email').value;
+  document.getElementById('reply-to-field').value = emailVal;
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('interest-success').style.display = 'block';
+    } else {
+      alert('Something went wrong. Please email christopher.ducklin@ducklingroup.com directly.');
+    }
+  } catch {
+    alert('Could not send your details. Please email christopher.ducklin@ducklingroup.com directly.');
+  }
 }
 </script>
 

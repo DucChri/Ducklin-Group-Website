@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment Thesis — Ducklin Group</title>
+  <meta name="description" content="Ducklin Group's investment thesis across UK listed infrastructure, greenfield infrastructure development, and housing redevelopment.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .thesis-hero {
+      background: linear-gradient(135deg, var(--navy), #162d50);
+      padding: 140px 48px 80px;
+      text-align: center;
+    }
+    .thesis-hero h1 { font-family: var(--font); font-size: clamp(1.8rem,3.5vw,2.8rem); color: var(--white); margin-bottom: 12px; }
+    .thesis-hero p { color: rgba(255,255,255,0.6); font-size: 1.05rem; max-width: 640px; margin: 0 auto; }
+
+    /* Pillar tabs */
+    .pillar-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 56px;
+      overflow-x: auto;
+    }
+
+    .pillar-tab {
+      padding: 18px 32px;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+      font-weight: 600;
+      transition: color 0.2s, border-color 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .pillar-tab:hover { color: var(--navy); }
+    .pillar-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+    .pillar-panel { display: none; }
+    .pillar-panel.active { display: block; }
+
+    /* Thesis content */
+    .thesis-intro {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 72px;
+      align-items: start;
+      margin-bottom: 64px;
+    }
+
+    .thesis-intro h2 { font-family: var(--font); font-size: 2rem; color: var(--navy); margin-bottom: 16px; }
+    .thesis-intro p { color: var(--gray); line-height: 1.8; margin-bottom: 16px; font-size: 0.95rem; }
+
+    .thesis-sidebar {
+      background: var(--navy);
+      border-radius: 4px;
+      padding: 36px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .thesis-sidebar h4 { font-family: var(--font); color: var(--white); font-size: 1rem; margin-bottom: 20px; }
+
+    .sidebar-stat { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-stat:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .sidebar-stat strong { display: block; color: var(--gold); font-size: 1.4rem; font-family: var(--font); margin-bottom: 4px; }
+    .sidebar-stat span { color: rgba(255,255,255,0.6); font-size: 0.82rem; line-height: 1.5; }
+
+    /* Opportunity cards */
+    .opportunity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .opp-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 24px;
+      background: var(--white);
+    }
+
+    .opp-card-num { font-family: var(--font); font-size: 2.2rem; color: var(--border); line-height: 1; margin-bottom: 10px; }
+    .opp-card h4 { font-family: var(--font); font-size: 1rem; color: var(--navy); margin-bottom: 8px; }
+    .opp-card p { color: var(--gray); font-size: 0.875rem; line-height: 1.7; }
+
+    /* Services row */
+    .services-row {
+      background: var(--off-white);
+      border-radius: 4px;
+      padding: 40px;
+      margin-bottom: 0;
+    }
+
+    .services-row h3 { font-family: var(--font); font-size: 1.2rem; color: var(--navy); margin-bottom: 24px; }
+    .services-row-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+    .service-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .service-chip-icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .service-chip h5 { font-size: 0.8rem; color: var(--navy); font-weight: 700; letter-spacing: 0.04em; }
+
+    /* Disclaimer */
+    .thesis-disclaimer {
+      background: var(--off-white);
+      border-left: 3px solid var(--border);
+      padding: 16px 20px;
+      margin-top: 48px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      line-height: 1.7;
+      border-radius: 0 4px 4px 0;
+    }
+
+    @media (max-width: 768px) {
+      .thesis-intro { grid-template-columns: 1fr; gap: 40px; }
+      .thesis-sidebar { position: static; }
+      .services-row-grid { grid-template-columns: 1fr 1fr; }
+      .pillar-tab { padding: 14px 18px; font-size: 0.75rem; }
+      .thesis-hero { padding: 130px 24px 60px; }
+      .services-row { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="index.html" class="nav-logo">Ducklin <span>Group</span></a>
+  <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="thesis.html" class="active">Investment Thesis</a></li>
+    <li><a href="performance.html">Performance</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="thesis-hero">
+  <h1>Investment Thesis</h1>
+  <p>Three complementary pillars targeting long-duration, income-generating, and capital-appreciation opportunities across UK real assets and infrastructure.</p>
+</div>
+
+<!-- Tabs + Content -->
+<section class="section">
+  <div class="container">
+
+    <!-- Tab buttons -->
+    <div class="pillar-tabs">
+      <button class="pillar-tab active" onclick="showPillar('infra', this)">01 · UK Infrastructure AIFM</button>
+      <button class="pillar-tab" onclick="showPillar('greenfield', this)">02 · Greenfield Infrastructure</button>
+      <button class="pillar-tab" onclick="showPillar('housing', this)">03 · Housing Redevelopment</button>
+    </div>
+
+    <!-- ── PILLAR 1: UK Infrastructure AIFM ── -->
+    <div class="pillar-panel active" id="pillar-infra">
+      <div class="thesis-intro">
+        <div>
+          <span class="section-label">Pillar One</span>
+          <h2>UK Listed Infrastructure AIFM</h2>
+          <p>The first pillar of Ducklin Group's strategy is the management of a UK-listed infrastructure fund as a registered Small Alternative Investment Fund Manager (AIFM). The portfolio targets high-quality, income-generating listed infrastructure investment trusts — a sector offering defensive, inflation-linked cashflows backed by long-term contracted or regulated revenues.</p>
+          <p>Our current portfolio demonstrates this thesis in practice: HICL Infrastructure, International Public Partnerships, and The Renewables Infrastructure Group provide yields of up to 9.82% with dividend cover maintained above 1.0x — characteristics we intend to replicate and scale within a formal fund structure.</p>
+          <p>The listed infrastructure universe offers institutional-quality assets at accessible price points, with daily liquidity and transparent pricing — a compelling combination for a nascent fund manager building a track record.</p>
+
+          <div class="opportunity-grid" style="margin-top:36px;">
+            <div class="opp-card">
+              <div class="opp-card-num">01</div>
+              <h4>Inflation Linkage</h4>
+              <p>Revenue streams typically indexed to RPI or CPI, providing natural protection against inflationary environments.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">02</div>
+              <h4>Long Duration</h4>
+              <p>Contracted asset lives of 20–30+ years, supporting predictable, multi-decade distribution profiles.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">03</div>
+              <h4>Income Generation</h4>
+              <p>Target distribution yields of 6–10%, underpinned by regulated or contracted revenues, not market speculation.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">04</div>
+              <h4>Track Record</h4>
+              <p>Strategy currently demonstrated via IBKR account — portfolio data available on our <a href="performance.html" style="color:var(--gold);">Performance page</a>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="thesis-sidebar">
+          <h4>Current Portfolio Metrics</h4>
+          <div class="sidebar-stat">
+            <strong>7.39%</strong>
+            <span>Blended income yield across infrastructure holdings (Aug 2026)</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>3 Holdings</strong>
+            <span>HICL, INPP, TRIG — all UK-listed infrastructure investment trusts</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>1.10–1.65×</strong>
+            <span>Dividend cover across income holdings — distributions fully supported by cash generation</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>£100m</strong>
+            <span>Maximum AUM threshold for Small AIFM registration under UK AIFMD</span>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="performance.html" class="btn-primary" style="display:block; text-align:center; background:var(--gold); color:var(--navy); font-size:0.8rem; padding:12px;">View Live Portfolio →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Planned services for this pillar -->
+      <div class="services-row">
+        <h3>Planned Services — UK Infrastructure AIFM</h3>
+        <div class="services-row-grid">
+          <div class="service-chip">
+            <div class="service-chip-icon">📊</div>
+            <h5>Portfolio Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">⚡</div>
+            <h5>Infrastructure &amp; Renewables</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">🛡️</div>
+            <h5>Risk Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">📑</div>
+            <h5>Investor Reporting</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PILLAR 2: Greenfield Infrastructure ── -->
+    <div class="pillar-panel" id="pillar-greenfield">
+      <div class="thesis-intro">
+        <div>
+          <span class="section-label">Pillar Two</span>
+          <h2>Greenfield Infrastructure Development</h2>
+          <p>The second pillar targets greenfield infrastructure development — the origination, development, and early-stage investment in new infrastructure assets from conception through to operational status. Greenfield projects typically offer higher risk-adjusted returns than secondary (operational) infrastructure, compensating investors for construction, planning, and ramp-up risk.</p>
+          <p>The UK faces a well-documented infrastructure deficit across energy, transport, water, and digital connectivity. Government targets for net zero, housing, and economic growth create a structural pipeline of development opportunities — many of which are too early-stage for large institutional investors but well-suited to an agile, smaller fund manager with specialist expertise.</p>
+          <p>Ducklin Group intends to focus on projects with clear planning pathways, government support, and contracted revenue frameworks — minimising speculative risk while capturing the development premium.</p>
+
+          <div class="opportunity-grid" style="margin-top:36px;">
+            <div class="opp-card">
+              <div class="opp-card-num">01</div>
+              <h4>Energy Transition</h4>
+              <p>Solar, battery storage, onshore wind, and grid infrastructure required to meet UK net zero commitments by 2050.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">02</div>
+              <h4>Development Premium</h4>
+              <p>Greenfield projects command a significant valuation uplift upon reaching operational status — targeting 15–25%+ IRR at development stage.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">03</div>
+              <h4>Government Tailwinds</h4>
+              <p>CfD auctions, National Wealth Fund capital, and planning reform create a supportive environment for new infrastructure investment.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">04</div>
+              <h4>Asset Recycling</h4>
+              <p>Once operational, assets can be refinanced or sold to listed infrastructure vehicles, providing capital for the next development cycle.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="thesis-sidebar">
+          <h4>Greenfield Opportunity</h4>
+          <div class="sidebar-stat">
+            <strong>£700B+</strong>
+            <span>Estimated UK infrastructure investment requirement to 2035 (National Infrastructure Commission)</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>15–25%+</strong>
+            <span>Target development-stage IRR — compensating for construction and planning risk</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>Net Zero 2050</strong>
+            <span>UK statutory commitment driving structural demand for clean energy and grid infrastructure development</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>CfD / PPA</strong>
+            <span>Contracts for Difference and Power Purchase Agreements provide revenue certainty from operational date</span>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="services.html#register" class="btn-primary" style="display:block; text-align:center; background:var(--gold); color:var(--navy); font-size:0.8rem; padding:12px;">Register Interest →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-row">
+        <h3>Planned Services — Greenfield Infrastructure</h3>
+        <div class="services-row-grid">
+          <div class="service-chip">
+            <div class="service-chip-icon">📊</div>
+            <h5>Portfolio Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">🏗️</div>
+            <h5>Infrastructure &amp; Renewables</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">🛡️</div>
+            <h5>Risk Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">📑</div>
+            <h5>Investor Reporting</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PILLAR 3: Housing Redevelopment ── -->
+    <div class="pillar-panel" id="pillar-housing">
+      <div class="thesis-intro">
+        <div>
+          <span class="section-label">Pillar Three</span>
+          <h2>Housing Redevelopment</h2>
+          <p>The third pillar focuses on residential housing redevelopment — the acquisition, remediation, and redevelopment of underutilised or brownfield residential sites into high-quality housing stock. The UK's persistent housing shortage, particularly in urban and suburban commuter markets, creates a structural opportunity for value-add residential development.</p>
+          <p>Ducklin Group's approach targets sites where planning permission can be secured or enhanced, where existing structures can be converted or replaced, and where strong local housing demand provides robust exit optionality — whether through private sale, affordable housing delivery, or institutional Build-to-Rent.</p>
+          <p>This pillar provides capital appreciation characteristics to complement the income focus of the infrastructure pillars, creating a balanced overall fund profile.</p>
+
+          <div class="opportunity-grid" style="margin-top:36px;">
+            <div class="opp-card">
+              <div class="opp-card-num">01</div>
+              <h4>Structural Undersupply</h4>
+              <p>The UK requires c.300,000 new homes per year but consistently delivers fewer — creating durable demand for quality housing stock.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">02</div>
+              <h4>Brownfield Focus</h4>
+              <p>Government priority on brownfield-first development reduces planning risk and aligns with Homes England funding programmes.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">03</div>
+              <h4>Value Creation</h4>
+              <p>Uplift from planning gain, site remediation, and quality development — targeting 20–30% gross development margins.</p>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-num">04</div>
+              <h4>Flexible Exit</h4>
+              <p>Multiple exit routes: private sale, affordable housing partnership, or institutional BTR forward sale — reducing market dependency.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="thesis-sidebar">
+          <h4>Housing Market Context</h4>
+          <div class="sidebar-stat">
+            <strong>300,000</strong>
+            <span>Annual new homes required in England — consistently underdelivered, sustaining structural demand</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>Brownfield First</strong>
+            <span>Government policy prioritises brownfield sites, with Homes England grant support available for remediation costs</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>20–30%</strong>
+            <span>Target gross development margin on housing redevelopment projects, net of remediation and build costs</span>
+          </div>
+          <div class="sidebar-stat">
+            <strong>BTR / PRS</strong>
+            <span>Build-to-Rent and Private Rented Sector demand from institutional investors provides forward sale optionality</span>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="services.html#register" class="btn-primary" style="display:block; text-align:center; background:var(--gold); color:var(--navy); font-size:0.8rem; padding:12px;">Register Interest →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-row">
+        <h3>Planned Services — Housing Redevelopment</h3>
+        <div class="services-row-grid">
+          <div class="service-chip">
+            <div class="service-chip-icon">📊</div>
+            <h5>Portfolio Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">🏠</div>
+            <h5>Infrastructure &amp; Development</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">🛡️</div>
+            <h5>Risk Management</h5>
+          </div>
+          <div class="service-chip">
+            <div class="service-chip-icon">📑</div>
+            <h5>Investor Reporting</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="thesis-disclaimer">
+      <strong>Important:</strong> The investment theses described on this page represent Ducklin Group's forward-looking intentions and do not constitute an offer, invitation, or financial promotion. Ducklin Group is not yet authorised or regulated by the Financial Conduct Authority. No investment management services will be provided until FCA registration as a Small UK AIFM is obtained. Target returns and market statistics are illustrative and not guaranteed. Past performance is not indicative of future results.
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--navy); padding:72px 48px; text-align:center;">
+  <div class="container">
+    <span class="section-label" style="display:block; text-align:center;">Get Involved</span>
+    <h2 style="font-family:var(--font); font-size:2rem; color:var(--white); margin-bottom:14px;">Interested in Investing?</h2>
+    <p style="color:rgba(255,255,255,0.6); margin-bottom:32px; font-size:1.05rem;">Register your interest now and we will contact you once FCA registration is in place and the fund is ready to accept investors.</p>
+    <a href="services.html#register" class="btn-primary">Register Interest</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Ducklin <span>Group</span></div>
+        <p class="footer-desc">Pursuing registration as a Small UK Alternative Investment Fund Manager (AIFM) with the Financial Conduct Authority.</p>
+        <p class="footer-desc" style="margin-top:16px; color:rgba(255,255,255,0.7);">Christopher Ducklin<br><a href="tel:+447743016608" style="color:var(--gold);">07743 016608</a></p>
+        <p class="footer-desc" style="margin-top:12px;"><a href="https://github.com/DucChri/Ducklin-Group-Website" target="_blank" rel="noopener" style="color:var(--gold); font-size:0.85rem;">⚙ View on GitHub</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="thesis.html">Investment Thesis</a></li>
+          <li><a href="performance.html">Performance</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Regulatory</h4>
+        <ul>
+          <li><a href="services.html#register">Register Interest</a></li>
+          <li><a href="https://www.fca.org.uk/firms/alternative-investment-fund-managers" target="_blank" rel="noopener">FCA — UK AIFM Regime</a></li>
+          <li><a href="https://register.fca.org.uk" target="_blank" rel="noopener">FCA Register</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Ducklin Group. All rights reserved.</span>
+      <span>Not authorised or regulated by the FCA. No investment services provided until FCA registration is obtained.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showPillar(id, btn) {
+  document.querySelectorAll('.pillar-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pillar-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pillar-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>

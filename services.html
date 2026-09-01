@@ -4,8 +4,105 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Services — Ducklin Group</title>
-  <meta name="description" content="Explore Ducklin Group's full range of investment and financial advisory services — from portfolio management to M&A.">
+  <meta name="description" content="Ducklin Group is pursuing registration as a Small UK AIFM. Register your interest in our alternative investment fund management services.">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .reg-banner {
+      background: #fff8e6;
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      padding: 24px 32px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 56px;
+    }
+    .reg-banner-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .reg-banner-text h4 { color: #7a5c00; font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .reg-banner-text p  { color: #7a5c00; font-size: 0.875rem; line-height: 1.7; }
+    .reg-banner-text a  { color: #7a5c00; text-decoration: underline; }
+
+    .aifm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .aifm-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px 28px;
+      background: var(--white);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .aifm-card:hover { box-shadow: 0 8px 32px rgba(11,31,58,0.08); transform: translateY(-3px); }
+
+    .aifm-card-icon { font-size: 1.8rem; margin-bottom: 14px; }
+    .aifm-card h3 { font-family: var(--font); font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
+    .aifm-card p  { color: var(--gray); font-size: 0.9rem; line-height: 1.7; }
+
+    .threshold-box {
+      background: var(--navy);
+      border-radius: 4px;
+      padding: 40px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+
+    .threshold-box h3 { font-family: var(--font); font-size: 1.3rem; color: var(--white); margin-bottom: 12px; grid-column: 1 / -1; }
+    .threshold-item { border-left: 3px solid var(--gold); padding-left: 16px; }
+    .threshold-item strong { color: var(--gold); display: block; font-size: 1.1rem; margin-bottom: 4px; }
+    .threshold-item span { color: rgba(255,255,255,0.65); font-size: 0.875rem; }
+
+    /* Interest registration form */
+    .interest-form-wrap {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 48px;
+    }
+
+    .interest-form-wrap h2 { font-family: var(--font); font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }
+    .interest-form-wrap .subtitle { color: var(--gray); margin-bottom: 32px; font-size: 0.95rem; line-height: 1.7; }
+
+    .interest-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .interest-form .full { grid-column: 1 / -1; }
+
+    .success-box {
+      display: none;
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      border-radius: 0 4px 4px 0;
+      padding: 20px 24px;
+      margin-top: 24px;
+    }
+    .success-box strong { color: #2e7d32; display: block; margin-bottom: 4px; }
+    .success-box p { color: #388e3c; font-size: 0.9rem; }
+
+    .fca-notice {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      border-left: 4px solid #ef4444;
+      border-radius: 0 4px 4px 0;
+      padding: 24px 28px;
+      margin-top: 48px;
+    }
+    .fca-notice h4 { color: #991b1b; font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .fca-notice p  { color: #7f1d1d; font-size: 0.875rem; line-height: 1.7; }
+    .fca-notice a  { color: #991b1b; text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .threshold-box { grid-template-columns: 1fr; padding: 28px 24px; }
+      .threshold-box h3 { grid-column: 1; }
+      .interest-form { grid-template-columns: 1fr; }
+      .interest-form .full { grid-column: 1; }
+      .interest-form-wrap { padding: 28px 24px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -27,17 +124,141 @@
 <!-- Page Hero -->
 <div class="services-hero">
   <h1>Our Services</h1>
-  <p>Ducklin Group's full service offering is currently in development.</p>
+  <p>Ducklin Group is pursuing registration as a Small UK Alternative Investment Fund Manager (AIFM).</p>
 </div>
 
-<!-- Coming Soon -->
-<section class="section" style="text-align:center; padding:120px 48px;">
-  <div class="container" style="max-width:620px;">
-    <div style="font-size:3rem; margin-bottom:28px;">🚀</div>
-    <span class="section-label" style="display:block; text-align:center;">Coming Soon</span>
-    <h2 class="section-title" style="text-align:center;">Launching in 2027</h2>
-    <p style="color:var(--gray); font-size:1.05rem; line-height:1.8; margin-bottom:40px;">We are working hard to bring you a comprehensive suite of investment and financial advisory services. Our full offering will be available in 2027 — get in touch if you'd like to be notified when we launch.</p>
-    <a href="contact.html" class="btn-primary" style="background:var(--navy); color:var(--white);">Get in Touch</a>
+<!-- Main Content -->
+<section class="section">
+  <div class="container">
+
+    <!-- FCA Regulation Notice -->
+    <div class="reg-banner">
+      <div class="reg-banner-icon">⚠️</div>
+      <div class="reg-banner-text">
+        <h4>Regulatory Notice — FCA Authorisation Required</h4>
+        <p>Ducklin Group is currently in the process of registering with the Financial Conduct Authority (FCA) as a Small UK AIFM. <strong>We are not yet authorised or regulated by the FCA.</strong> No investment management services will be provided to clients until full registration and any required authorisation is obtained. Prospective investors should be aware that FCA regulation provides important consumer protections that will not apply until this process is complete. For more information visit <a href="https://www.fca.org.uk" target="_blank" rel="noopener">fca.org.uk</a>.</p>
+      </div>
+    </div>
+
+    <!-- What is a Small AIFM -->
+    <span class="section-label">About Our Structure</span>
+    <h2 class="section-title">Small UK Alternative Investment Fund Manager</h2>
+    <p class="section-subtitle">A Small UK AIFM is a lighter-touch regulatory regime for fund managers operating below defined asset under management thresholds, registered — rather than fully authorised — with the FCA.</p>
+
+    <!-- Thresholds -->
+    <div class="threshold-box">
+      <h3>Small AIFM Thresholds (UK)</h3>
+      <div class="threshold-item">
+        <strong>£100m AUM</strong>
+        <span>Maximum AUM for leveraged funds to qualify as a Small AIFM under the UK AIFMD regime</span>
+      </div>
+      <div class="threshold-item">
+        <strong>£500m AUM</strong>
+        <span>Maximum AUM for unleveraged, closed-ended funds with no redemption rights for 5 years</span>
+      </div>
+    </div>
+
+    <!-- What we plan to offer -->
+    <span class="section-label">Planned Services</span>
+    <h2 class="section-title">What Ducklin Group Will Offer</h2>
+    <p class="section-subtitle">Subject to successful FCA registration, Ducklin Group intends to provide the following alternative investment fund management services.</p>
+
+    <div class="aifm-grid">
+      <div class="aifm-card">
+        <div class="aifm-card-icon">📊</div>
+        <h3>Portfolio Management</h3>
+        <p>Discretionary management of alternative investment funds across listed infrastructure, renewables, and growth equities — with a disciplined, research-led approach.</p>
+      </div>
+      <div class="aifm-card">
+        <div class="aifm-card-icon">🏗️</div>
+        <h3>Infrastructure &amp; Renewables</h3>
+        <p>Focused exposure to UK-listed infrastructure investment trusts and renewable energy funds — sectors offering visible, long-duration income streams.</p>
+      </div>
+      <div class="aifm-card">
+        <div class="aifm-card-icon">📋</div>
+        <h3>Risk Management</h3>
+        <p>Robust risk frameworks covering market, liquidity, operational, and concentration risk — proportionate to the size and strategy of each fund managed.</p>
+      </div>
+      <div class="aifm-card">
+        <div class="aifm-card-icon">📑</div>
+        <h3>Investor Reporting</h3>
+        <p>Transparent, regular reporting to investors including NAV statements, performance attribution, and portfolio commentary in line with regulatory requirements.</p>
+      </div>
+    </div>
+
+    <!-- Register Interest Form -->
+    <div class="interest-form-wrap" id="register">
+      <h2>Register Your Interest</h2>
+      <p class="subtitle">If you are interested in being considered as an investor in a Ducklin Group fund once we are registered and operational, please submit your details below. Registering interest does not constitute a commitment to invest and does not create any legal obligation on either party. All enquiries are handled in strict confidence.</p>
+
+      <form id="interest-form" onsubmit="submitInterest(event)">
+        <div class="interest-form">
+          <div>
+            <label for="if-first">First Name</label>
+            <input type="text" id="if-first" placeholder="John" required>
+          </div>
+          <div>
+            <label for="if-last">Last Name</label>
+            <input type="text" id="if-last" placeholder="Smith" required>
+          </div>
+          <div>
+            <label for="if-email">Email Address</label>
+            <input type="email" id="if-email" placeholder="john@example.com" required>
+          </div>
+          <div>
+            <label for="if-phone">Phone Number (Optional)</label>
+            <input type="tel" id="if-phone" placeholder="+44 7700 000000">
+          </div>
+          <div>
+            <label for="if-type">Investor Type</label>
+            <select id="if-type" required>
+              <option value="" disabled selected>Select...</option>
+              <option>Professional Investor</option>
+              <option>High Net Worth Individual</option>
+              <option>Sophisticated Investor</option>
+              <option>Institutional Investor</option>
+              <option>Family Office</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="if-amount">Indicative Investment Range (Optional)</label>
+            <select id="if-amount">
+              <option value="" disabled selected>Select...</option>
+              <option>Under £50,000</option>
+              <option>£50,000 – £250,000</option>
+              <option>£250,000 – £1,000,000</option>
+              <option>£1,000,000 – £5,000,000</option>
+              <option>Over £5,000,000</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="if-message">Any questions or comments? (Optional)</label>
+            <textarea id="if-message" placeholder="Tell us a bit about your investment interests or any questions you have..." style="min-height:100px;"></textarea>
+          </div>
+          <div class="full" style="display:flex; align-items:flex-start; gap:12px;">
+            <input type="checkbox" id="if-confirm" required style="width:auto; margin-top:3px; flex-shrink:0;">
+            <label for="if-confirm" style="text-transform:none; letter-spacing:0; font-weight:400; color:var(--gray); font-size:0.875rem; line-height:1.6;">I understand that Ducklin Group is not yet authorised or regulated by the FCA, that registering interest does not constitute a commitment to invest, and that no investment services will be provided until regulatory registration is complete.</label>
+          </div>
+          <div class="full">
+            <button type="submit" class="btn-submit">Submit Interest</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="success-box" id="interest-success">
+        <strong>Thank you — interest registered.</strong>
+        <p>We have received your details and will be in touch once Ducklin Group has obtained FCA registration and is ready to accept investors.</p>
+      </div>
+
+      <!-- FCA Notice -->
+      <div class="fca-notice">
+        <h4>⚠ Important — FCA Regulation Not Yet Obtained</h4>
+        <p>Ducklin Group Limited is not currently authorised or regulated by the Financial Conduct Authority. Obtaining FCA registration as a Small UK AIFM is a requirement before any alternative investment fund management services can be lawfully provided. Until that registration is confirmed, we cannot accept investment mandates, manage client assets, or promote any fund to investors. Registering interest on this page does not constitute any form of financial promotion, offer, or invitation to invest. If you have any concerns, please consult an independent financial adviser. For details of the UK AIFM regime, visit <a href="https://www.fca.org.uk/firms/alternative-investment-fund-managers" target="_blank" rel="noopener">fca.org.uk</a>.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -47,7 +268,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand">Ducklin <span>Group</span></div>
-        <p class="footer-desc">A premier investment and financial advisory firm committed to delivering disciplined, client-focused capital solutions since 2006.</p>
+        <p class="footer-desc">Pursuing registration as a Small UK Alternative Investment Fund Manager (AIFM) with the Financial Conduct Authority.</p>
         <p class="footer-desc" style="margin-top:16px; color:rgba(255,255,255,0.7);">Christopher Ducklin<br><a href="tel:+447743016608" style="color:var(--gold);">07743 016608</a></p>
         <p class="footer-desc" style="margin-top:12px;"><a href="https://github.com/DucChri/Ducklin-Group-Website" target="_blank" rel="noopener" style="color:var(--gold); font-size:0.85rem;">⚙ View on GitHub</a></p>
       </div>
@@ -57,25 +278,33 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="services.html">Services</a></li>
+          <li><a href="performance.html">Performance</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Services</h4>
+        <h4>Regulatory</h4>
         <ul>
-          <li><a href="services.html">Portfolio Management</a></li>
-          <li><a href="services.html">Private Equity</a></li>
-          <li><a href="services.html">M&amp;A Advisory</a></li>
-          <li><a href="services.html">Wealth Preservation</a></li>
+          <li><a href="services.html#register">Register Interest</a></li>
+          <li><a href="https://www.fca.org.uk/firms/alternative-investment-fund-managers" target="_blank" rel="noopener">FCA — UK AIFM Regime</a></li>
+          <li><a href="https://register.fca.org.uk" target="_blank" rel="noopener">FCA Register</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 Ducklin Group. All rights reserved.</span>
-      <span>Investment advisory services involve risk. Past performance is not indicative of future results.</span>
+      <span>Not authorised or regulated by the FCA. No investment services provided until FCA registration is obtained.</span>
     </div>
   </div>
 </footer>
+
+<script>
+function submitInterest(e) {
+  e.preventDefault();
+  document.getElementById('interest-form').style.display = 'none';
+  document.getElementById('interest-success').style.display = 'block';
+}
+</script>
 
 </body>
 </html>
